@@ -18,5 +18,5 @@ class BirdCount {
 
     public int CountForFirstDays(int numberOfDays) => birdsPerDay.Take(numberOfDays).Sum();
 
-    public int BusyDays() => Array.FindAll(birdsPerDay, birds => birds >= 5).Length;
+    public int BusyDays() => birdsPerDay.Count(birds => birds >= 5);
 }
