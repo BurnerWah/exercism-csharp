@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 public static class Languages {
-    public static List<string> NewList() => new List<string>();
+    public static List<string> NewList() => [];
 
-    public static List<string> GetExistingLanguages() => new List<string> {
+    public static List<string> GetExistingLanguages() => [
         "C#",
         "Clojure",
         "Elm",
-    };
+    ];
 
     public static List<string> AddLanguage(List<string> languages, string language) {
         languages.Add(language);
