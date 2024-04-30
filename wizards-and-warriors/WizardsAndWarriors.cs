@@ -1,12 +1,6 @@
 using System;
 
-abstract class Character {
-    private readonly string characterType;
-
-    protected Character(string characterType) {
-        this.characterType = characterType;
-    }
-
+abstract class Character(string characterType) {
     public abstract int DamagePoints(Character target);
 
     public virtual bool Vulnerable() => false;
