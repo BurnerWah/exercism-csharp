@@ -1,15 +1,10 @@
 using System;
 
-class RemoteControlCar {
-    private readonly int speed;
-    private readonly int batteryDrain;
+class RemoteControlCar(int speed, int batteryDrain) {
+    private readonly int speed = speed;
+    private readonly int batteryDrain = batteryDrain;
     private int battery = 100;
     private int distance = 0;
-
-    public RemoteControlCar(int speed, int batteryDrain) {
-        this.speed = speed;
-        this.batteryDrain = batteryDrain;
-    }
 
     public bool BatteryDrained() => battery < batteryDrain;
 
@@ -25,12 +20,8 @@ class RemoteControlCar {
     public static RemoteControlCar Nitro() => new RemoteControlCar(50, 4);
 }
 
-class RaceTrack {
-    private readonly int distance;
-
-    public RaceTrack(int distance) {
-        this.distance = distance;
-    }
+class RaceTrack(int distance) {
+    private readonly int distance = distance;
 
     public bool TryFinishTrack(RemoteControlCar car) {
         while (car.DistanceDriven() < distance) {
