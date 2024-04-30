@@ -13,14 +13,7 @@ class BirdCount {
 
     public void IncrementTodaysCount() => birdsPerDay[^1]++;
 
-    public bool HasDayWithoutBirds() {
-        foreach (var day in birdsPerDay) {
-            if (day == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public bool HasDayWithoutBirds() => Array.Exists(birdsPerDay, birds => birds == 0);
 
     public int CountForFirstDays(int numberOfDays) {
         var count = 0;
@@ -30,13 +23,5 @@ class BirdCount {
         return count;
     }
 
-    public int BusyDays() {
-        var count = 0;
-        foreach (var day in birdsPerDay) {
-            if (day >= 5) {
-                count++;
-            }
-        }
-        return count;
-    }
+    public int BusyDays() => Array.FindAll(birdsPerDay, birds => birds >= 5).Length;
 }
