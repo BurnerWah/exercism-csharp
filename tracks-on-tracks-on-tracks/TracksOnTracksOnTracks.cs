@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class Languages {
     public static List<string> NewList() => new List<string>();
@@ -35,13 +36,5 @@ public static class Languages {
         return languages;
     }
 
-    public static bool IsUnique(List<string> languages) {
-        languages.Sort();
-        for (int i = 0; i < languages.Count - 1; i++) {
-            if (languages[i] == languages[i + 1]) {
-                return false;
-            }
-        }
-        return true;
-    }
+    public static bool IsUnique(List<string> languages) => languages.Count == languages.Distinct().Count();
 }
