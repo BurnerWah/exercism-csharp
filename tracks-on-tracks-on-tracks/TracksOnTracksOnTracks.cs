@@ -25,11 +25,11 @@ public static class Languages {
         return languages;
     }
 
-    public static bool IsExciting(List<string> languages) =>
-        languages.Count > 0
-        && (languages[0] == "C#"
-            || ((languages.Count == 2 || languages.Count == 3)
-                && languages[1] == "C#"));
+    public static bool IsExciting(List<string> languages) => languages.Count switch {
+        0 => false,
+        2 or 3 => languages[..2].Contains("C#"),
+        _ => languages[0] == "C#",
+    };
 
     public static List<string> RemoveLanguage(List<string> languages, string language) {
         languages.Remove(language);
