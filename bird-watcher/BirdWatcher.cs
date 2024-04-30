@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 class BirdCount {
     private readonly int[] birdsPerDay;
@@ -15,13 +16,7 @@ class BirdCount {
 
     public bool HasDayWithoutBirds() => Array.Exists(birdsPerDay, birds => birds == 0);
 
-    public int CountForFirstDays(int numberOfDays) {
-        var count = 0;
-        foreach (var day in birdsPerDay[..numberOfDays]) {
-            count += day;
-        }
-        return count;
-    }
+    public int CountForFirstDays(int numberOfDays) => birdsPerDay.Take(numberOfDays).Sum();
 
     public int BusyDays() => Array.FindAll(birdsPerDay, birds => birds >= 5).Length;
 }
