@@ -1,12 +1,6 @@
 using System;
 
-public class SpaceAge {
-    int seconds;
-
-    public SpaceAge(int seconds) {
-        this.seconds = seconds;
-    }
-
+public class SpaceAge(int seconds) {
     public double OnEarth() => seconds / 31557600F;
 
     public double OnMercury() => OnEarth() / 0.2408467;
