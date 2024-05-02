@@ -4,9 +4,7 @@ using System.Collections.Generic;
 public class Robot {
     public static HashSet<string> names = new HashSet<string>();
 
-    public Robot() => Name = GenerateName();
-
-    public string Name { get; private set; }
+    public string Name { get; private set; } = GenerateName();
 
     public void Reset() {
         var newName = GenerateName();
