@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 
@@ -17,18 +18,22 @@ public enum AlertLevel {
 public static class Appointment {
     public static DateTime ShowLocalTime(DateTime dtUtc) => dtUtc.ToLocalTime();
 
-    public static DateTime Schedule(string appointmentDateDescription, Location location) {
-        // I'm kinda stuck on anything that involves specific timezones
-        // return DateTime.Parse(appointmentDateDescription, )
-        var x = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        var y = TimeZoneInfo.FindSystemTimeZoneById(location switch {
-            Location.NewYork => x ? "Eastern Standard Time" : "America/New_York",
-            Location.London => x ? "GMT Standard Time" : "Europe/London",
-            Location.Paris => x ? "W. Europe Standard Time" : "Europe/Paris",
+    private static TimeZoneInfo GetTimeZone(Location location) {
+        var windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        return TimeZoneInfo.FindSystemTimeZoneById(location switch {
+            Location.NewYork => windows ? "Eastern Standard Time" : "America/New_York",
+            Location.London => windows ? "GMT Standard Time" : "Europe/London",
+            Location.Paris => windows ? "W. Europe Standard Time" : "Europe/Paris",
             _ => throw new NotImplementedException(),
         });
-        var z = DateTime.Parse(appointmentDateDescription);
-        return z;
+    }
+
+    public static DateTime Schedule(string appointmentDateDescription, Location location) {
+        var dt = DateTime.Parse(appointmentDateDescription);
+        var tzi = GetTimeZone(location);
+        // Have to use GetUtcOffset to avoid DST insues
+        var offset = tzi.GetUtcOffset(dt);
+        return dt - offset;
     }
 
     public static DateTime GetAlertTime(DateTime appointment, AlertLevel alertLevel) => appointment - alertLevel switch {
@@ -39,18 +44,23 @@ public static class Appointment {
     };
 
     public static bool HasDaylightSavingChanged(DateTime dt, Location location) {
-        var x = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        var y = TimeZoneInfo.FindSystemTimeZoneById(location switch {
-            Location.NewYork => x ? "Eastern Standard Time" : "America/New_York",
-            Location.London => x ? "GMT Standard Time" : "Europe/London",
-            Location.Paris => x ? "W. Europe Standard Time" : "Europe/Paris",
-            _ => throw new NotImplementedException(),
-        });
-        return y.IsDaylightSavingTime(dt.ToUniversalTime()) == y.IsDaylightSavingTime(dt.ToUniversalTime() - new TimeSpan(7, 0, 0, 0));
-        // return dt.IsDaylightSavingTime() == dt.AddDays(-7).IsDaylightSavingTime();
+        var tzi = GetTimeZone(location);
+        return tzi.IsDaylightSavingTime(dt) != tzi.IsDaylightSavingTime(dt - new TimeSpan(7, 0, 0, 0));
+
     }
 
     public static DateTime NormalizeDateTime(string dtStr, Location location) {
-        throw new NotImplementedException("Please implement the (static) Appointment.NormalizeDateTime() method");
+        var culture = location switch {
+            Location.NewYork => new CultureInfo("en-US"),
+            Location.London => new CultureInfo("en-GB"),
+            Location.Paris => new CultureInfo("fr-FR"),
+            _ => CultureInfo.InvariantCulture,
+        };
+        try {
+            return DateTime.Parse(dtStr, culture);
+        }
+        catch (FormatException) {
+            return new DateTime(1, 1, 1);
+        }
     }
 }
