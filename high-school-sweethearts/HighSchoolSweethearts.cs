@@ -1,13 +1,25 @@
 using System;
+using System.Globalization;
 
 public static class HighSchoolSweethearts {
-    public static string DisplaySingleLine(string studentA, string studentB) {
-        throw new NotImplementedException($"Please implement the (static) HighSchoolSweethearts.DisplaySingleLine() method");
-    }
+    public static string DisplaySingleLine(string studentA, string studentB) => $"{studentA,29} ♡ {studentB,-29}";
 
-    public static string DisplayBanner(string studentA, string studentB) {
-        throw new NotImplementedException($"Please implement the (static) HighSchoolSweethearts.DisplayBanner() method");
-    }
+    public static string DisplayBanner(string studentA, string studentB) => String.Format(@"
+     ******       ******
+   **      **   **      **
+ **         ** **         **
+**            *            **
+**                         **
+**     {0}  +  {1}     **
+ **                       **
+   **                   **
+     **               **
+       **           **
+         **       **
+           **   **
+             ***
+              *
+", studentA.Trim(), studentB.Trim());
 
     public static string DisplayGermanExchangeStudents(
         string studentA,
@@ -15,6 +27,7 @@ public static class HighSchoolSweethearts {
         DateTime start,
         float hours
     ) {
-        throw new NotImplementedException($"Please implement the (static) HighSchoolSweethearts.DisplayGermanExchangeStudents() method");
+        var culture = new CultureInfo("de-DE");
+        return $"{studentA} and {studentB} have been dating since {start.ToString("d", culture.DateTimeFormat)} - that's {hours.ToString("n2", culture.NumberFormat)} hours";
     }
 }
