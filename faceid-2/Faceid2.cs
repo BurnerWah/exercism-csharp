@@ -1,45 +1,76 @@
 using System;
+using System.Collections.Generic;
 
-public class FacialFeatures {
-    public string EyeColor { get; }
-    public decimal PhiltrumWidth { get; }
+public class FacialFeatures(string eyeColor, decimal philtrumWidth) : IEquatable<FacialFeatures> {
+    public string EyeColor { get; } = eyeColor;
+    public decimal PhiltrumWidth { get; } = philtrumWidth;
 
-    public FacialFeatures(string eyeColor, decimal philtrumWidth) {
-        EyeColor = eyeColor;
-        PhiltrumWidth = philtrumWidth;
+    public override bool Equals(object obj) => this.Equals(obj as FacialFeatures);
+    public bool Equals(FacialFeatures other) {
+        if (other is null) {
+            return false;
+        }
+        if (Object.ReferenceEquals(this, other)) {
+            return true;
+        }
+        if (this.GetType() != other.GetType()) {
+            return false;
+        }
+        return EyeColor == other.EyeColor && PhiltrumWidth == other.PhiltrumWidth;
     }
-    // TODO: implement equality and GetHashCode() methods
+
+    public static bool operator ==(FacialFeatures lhs, FacialFeatures rhs) => (lhs, rhs) switch {
+        (null, null) => true,
+        (null, _) => false,
+        (_, null) => false,
+        (_, _) => lhs.Equals(rhs),
+    };
+    public static bool operator !=(FacialFeatures lhs, FacialFeatures rhs) => !(lhs == rhs);
+
+    public override int GetHashCode() => (EyeColor, PhiltrumWidth).GetHashCode();
+
 }
 
-public class Identity {
-    public string Email { get; }
-    public FacialFeatures FacialFeatures { get; }
+public class Identity(string email, FacialFeatures facialFeatures) : IEquatable<Identity> {
+    public string Email { get; } = email;
+    public FacialFeatures FacialFeatures { get; } = facialFeatures;
 
-    public Identity(string email, FacialFeatures facialFeatures) {
-        Email = email;
-        FacialFeatures = facialFeatures;
+    public bool Equals(Identity other) {
+        if (other is null) {
+            return false;
+        }
+        if (Object.ReferenceEquals(this, other)) {
+            return true;
+        }
+        if (this.GetType() != other.GetType()) {
+            return false;
+        }
+        return Email == other.Email && FacialFeatures == other.FacialFeatures;
     }
-    // TODO: implement equality and GetHashCode() methods
+    public override bool Equals(object obj) => this.Equals(obj as Identity);
+
+    public static bool operator ==(Identity lhs, Identity rhs) => (lhs, rhs) switch {
+        (null, null) => true,
+        (null, _) => false,
+        (_, null) => false,
+        (_, _) => lhs.Equals(rhs),
+    };
+    public static bool operator !=(Identity lhs, Identity rhs) => !(lhs == rhs);
+
+
+    public override int GetHashCode() => (Email, FacialFeatures).GetHashCode();
 }
 
 public class Authenticator {
-    public static bool AreSameFace(FacialFeatures faceA, FacialFeatures faceB) {
-        throw new NotImplementedException("Please implement the (static) Authenticator.AreSameFace() method");
-    }
+    private HashSet<Identity> identities = new HashSet<Identity>();
 
-    public bool IsAdmin(Identity identity) {
-        throw new NotImplementedException("Please implement the Authenticator.IsAdmin() method");
-    }
+    public static bool AreSameFace(FacialFeatures faceA, FacialFeatures faceB) => faceA == faceB;
 
-    public bool Register(Identity identity) {
-        throw new NotImplementedException("Please implement the Authenticator.Register() method");
-    }
+    public bool IsAdmin(Identity identity) => identity == new Identity("admin@exerc.ism", new FacialFeatures("green", 0.9m));
 
-    public bool IsRegistered(Identity identity) {
-        throw new NotImplementedException("Please implement the Authenticator.IsRegistered() method");
-    }
+    public bool Register(Identity identity) => identities.Add(identity);
 
-    public static bool AreSameObject(Identity identityA, Identity identityB) {
-        throw new NotImplementedException("Please implement the Authenticator.AreSameObject() method");
-    }
+    public bool IsRegistered(Identity identity) => identities.Contains(identity);
+
+    public static bool AreSameObject(Identity identityA, Identity identityB) => Object.ReferenceEquals(identityA, identityB);
 }
