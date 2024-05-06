@@ -4,22 +4,24 @@ using System.Globalization;
 public static class HighSchoolSweethearts {
     public static string DisplaySingleLine(string studentA, string studentB) => $"{studentA,29} ♡ {studentB,-29}";
 
-    public static string DisplayBanner(string studentA, string studentB) => String.Format(@"
-     ******       ******
-   **      **   **      **
- **         ** **         **
-**            *            **
-**                         **
-**     {0}  +  {1}     **
- **                       **
-   **                   **
-     **               **
-       **           **
-         **       **
-           **   **
-             ***
-              *
-", studentA.Trim(), studentB.Trim());
+    public static string DisplayBanner(string studentA, string studentB) => $"""
+
+             ******       ******
+           **      **   **      **
+         **         ** **         **
+        **            *            **
+        **                         **
+        **     {studentA.Trim()}  +  {studentB.Trim()}     **
+         **                       **
+           **                   **
+             **               **
+               **           **
+                 **       **
+                   **   **
+                     ***
+                      *
+
+        """;
 
     public static string DisplayGermanExchangeStudents(
         string studentA,
