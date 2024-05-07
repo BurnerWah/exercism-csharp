@@ -39,6 +39,24 @@ public class RemoteControlCar {
             parent.SetSpeed(new Speed(amount, unitsString == "cps" ? SpeedUnits.CentimetersPerSecond : SpeedUnits.MetersPerSecond));
         }
     }
+
+    private struct Speed {
+        public decimal Amount { get; }
+        public SpeedUnits SpeedUnits { get; }
+
+        public Speed(decimal amount, SpeedUnits speedUnits) {
+            Amount = amount;
+            SpeedUnits = speedUnits;
+        }
+
+        public override string ToString() {
+            string unitsString = "meters per second";
+            if (SpeedUnits == SpeedUnits.CentimetersPerSecond) {
+                unitsString = "centimeters per second";
+            }
+            return Amount + " " + unitsString;
+        }
+    }
 }
 
 public enum SpeedUnits {
@@ -46,20 +64,4 @@ public enum SpeedUnits {
     CentimetersPerSecond
 }
 
-public struct Speed {
-    public decimal Amount { get; }
-    public SpeedUnits SpeedUnits { get; }
 
-    public Speed(decimal amount, SpeedUnits speedUnits) {
-        Amount = amount;
-        SpeedUnits = speedUnits;
-    }
-
-    public override string ToString() {
-        string unitsString = "meters per second";
-        if (SpeedUnits == SpeedUnits.CentimetersPerSecond) {
-            unitsString = "centimeters per second";
-        }
-        return Amount + " " + unitsString;
-    }
-}
