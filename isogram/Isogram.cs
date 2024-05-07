@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 
 public static class Isogram {
     public static bool IsIsogram(string word) {
-        throw new NotImplementedException("You need to implement this method.");
+        var filteredWord = word.Replace("-", null).Replace(" ", null).ToLower();
+        var characters = filteredWord.ToHashSet();
+        return characters.Count == filteredWord.Length;
     }
 }
