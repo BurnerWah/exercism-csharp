@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GradeSchool {
-    public bool Add(string student, int grade) {
-        throw new NotImplementedException("You need to implement this method.");
-    }
+    private readonly Dictionary<string, int> students = [];
 
-    public IEnumerable<string> Roster() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
+    public bool Add(string student, int grade) => students.TryAdd(student, grade);
 
-    public IEnumerable<string> Grade(int grade) {
-        throw new NotImplementedException("You need to implement this method.");
-    }
+    public IEnumerable<string> Roster() => from student in students
+                                           orderby student.Value, student.Key
+                                           select student.Key;
+
+    public IEnumerable<string> Grade(int grade) => from student in students
+                                                   where student.Value == grade
+                                                   orderby student.Key
+                                                   select student.Key;
 }
