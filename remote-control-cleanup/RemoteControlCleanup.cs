@@ -21,7 +21,11 @@ public class RemoteControlCar {
         currentSpeed = speed;
     }
 
-    public class CTelemetry(RemoteControlCar parent) {
+    public class CTelemetry {
+        private readonly RemoteControlCar parent;
+
+        protected internal CTelemetry(RemoteControlCar parent) => this.parent = parent;
+
         public void Calibrate() { }
         public bool SelfTest() {
             return true;
