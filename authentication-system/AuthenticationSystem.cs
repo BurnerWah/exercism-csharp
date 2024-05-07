@@ -1,39 +1,36 @@
 using System.Collections.Generic;
 
 public class Authenticator {
-    private class EyeColor {
-        public string Blue = "blue";
-        public string Green = "green";
-        public string Brown = "brown";
-        public string Hazel = "hazel";
-        public string Grey = "grey";
+    private static class EyeColor {
+        public const string Blue = "blue";
+        public const string Green = "green";
+        public const string Brown = "brown";
+        public const string Hazel = "hazel";
+        public const string Grey = "grey";
+    }
+
+    private Identity admin;
+    public Identity Admin {
+        get => admin;
+        set => admin = value;
     }
 
     public Authenticator(Identity admin) {
         this.admin = admin;
     }
 
-    private Identity admin;
-
-    private IDictionary<string, Identity> developers = new Dictionary<string, Identity> {
+    private readonly IDictionary<string, Identity> developers = new Dictionary<string, Identity> {
         ["Bertrand"] = new Identity {
             Email = "bert@ex.ism",
-            EyeColor = "blue"
+            EyeColor = EyeColor.Blue,
         },
         ["Anders"] = new Identity {
             Email = "anders@ex.ism",
-            EyeColor = "brown"
+            EyeColor = EyeColor.Brown,
         }
     };
 
-    public Identity Admin {
-        get { return admin; }
-        set { admin = value; }
-    }
-
-    public IDictionary<string, Identity> GetDevelopers() {
-        return developers;
-    }
+    public IDictionary<string, Identity> GetDevelopers() => developers.AsReadOnly();
 }
 
 public struct Identity {
