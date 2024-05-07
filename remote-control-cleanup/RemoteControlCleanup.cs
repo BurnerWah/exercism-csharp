@@ -3,25 +3,10 @@ public class RemoteControlCar {
 
     private Speed currentSpeed;
 
-    // TODO encapsulate the methods suffixed with "_Telemetry" in their own class
-    // dropping the suffix from the method name
-    public void Calibrate_Telementry() {
-    }
+    public CTelemetry Telemetry;
 
-    public bool SelfTest_Telemetry() {
-        return true;
-    }
-
-    public void ShowSponsor_Telemetry(string sponsorName) {
-        SetSponsor(sponsorName);
-    }
-
-    public void SetSpeed_Telemetry(decimal amount, string unitsString) {
-        SpeedUnits speedUnits = SpeedUnits.MetersPerSecond;
-        if (unitsString == "cps") {
-            speedUnits = SpeedUnits.CentimetersPerSecond;
-        }
-        SetSpeed(new Speed(amount, speedUnits));
+    public RemoteControlCar() {
+        Telemetry = new CTelemetry(this);
     }
 
     public string GetSpeed() {
@@ -34,6 +19,21 @@ public class RemoteControlCar {
 
     private void SetSpeed(Speed speed) {
         currentSpeed = speed;
+    }
+
+    public class CTelemetry(RemoteControlCar parent) {
+        public void Calibrate() { }
+        public bool SelfTest() {
+            return true;
+        }
+
+        public void ShowSponsor(string sponsorName) {
+            parent.SetSponsor(sponsorName);
+        }
+
+        public void SetSpeed(decimal amount, string unitsString) {
+            parent.SetSpeed(new Speed(amount, unitsString == "cps" ? SpeedUnits.CentimetersPerSecond : SpeedUnits.MetersPerSecond));
+        }
     }
 }
 
