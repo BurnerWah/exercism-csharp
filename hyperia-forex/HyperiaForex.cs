@@ -1,3 +1,5 @@
+using System;
+
 public struct CurrencyAmount {
     private decimal amount;
     private string currency;
@@ -7,11 +9,59 @@ public struct CurrencyAmount {
         this.currency = currency;
     }
 
-    // TODO: implement equality operators
+    public static bool operator ==(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return lhs.amount == rhs.amount;
+        } else {
+            throw new ArgumentException();
+        }
+    }
+    public static bool operator !=(CurrencyAmount lhs, CurrencyAmount rhs) => !(lhs == rhs);
 
-    // TODO: implement comparison operators
+    public static bool operator >(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return lhs.amount > rhs.amount;
+        } else {
+            throw new ArgumentException();
+        }
+    }
+    public static bool operator <(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return lhs.amount < rhs.amount;
+        } else {
+            throw new ArgumentException();
+        }
+    }
 
-    // TODO: implement arithmetic operators
+    public static CurrencyAmount operator +(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return new CurrencyAmount(lhs.amount + rhs.amount, lhs.currency);
+        } else {
+            throw new ArgumentException();
+        }
+    }
+    public static CurrencyAmount operator -(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return new CurrencyAmount(lhs.amount - rhs.amount, lhs.currency);
+        } else {
+            throw new ArgumentException();
+        }
+    }
+    public static CurrencyAmount operator *(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return new CurrencyAmount(lhs.amount * rhs.amount, lhs.currency);
+        } else {
+            throw new ArgumentException();
+        }
+    }
+    public static CurrencyAmount operator /(CurrencyAmount lhs, CurrencyAmount rhs) {
+        if (lhs.currency == rhs.currency) {
+            return new CurrencyAmount(lhs.amount / rhs.amount, lhs.currency);
+        } else {
+            throw new ArgumentException();
+        }
+    }
 
-    // TODO: implement type conversion operators
+    public static explicit operator double(CurrencyAmount c) => (double)c.amount;
+    public static implicit operator decimal(CurrencyAmount c) => c.amount;
 }
