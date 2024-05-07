@@ -57,11 +57,13 @@ public class RemoteControlCar {
             return Amount + " " + unitsString;
         }
     }
+
+    private enum SpeedUnits {
+        MetersPerSecond,
+        CentimetersPerSecond
+    }
 }
 
-public enum SpeedUnits {
-    MetersPerSecond,
-    CentimetersPerSecond
-}
+
 
 
