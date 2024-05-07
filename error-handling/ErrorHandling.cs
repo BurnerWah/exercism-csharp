@@ -1,19 +1,30 @@
 using System;
 
 public static class ErrorHandling {
-    public static void HandleErrorByThrowingException() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
+    public static void HandleErrorByThrowingException() => throw new Exception();
 
     public static int? HandleErrorByReturningNullableType(string input) {
-        throw new NotImplementedException("You need to implement this method.");
+        try {
+            return Int32.Parse(input);
+        }
+        catch (Exception) {
+            return null;
+        }
     }
 
     public static bool HandleErrorWithOutParam(string input, out int result) {
-        throw new NotImplementedException("You need to implement this method.");
+        try {
+            result = Int32.Parse(input);
+            return true;
+        }
+        catch (Exception) {
+            result = -1;
+            return false;
+        }
     }
 
     public static void DisposableResourcesAreDisposedWhenExceptionIsThrown(IDisposable disposableObject) {
-        throw new NotImplementedException("You need to implement this method.");
+        disposableObject.Dispose();
+        throw new Exception();
     }
 }
