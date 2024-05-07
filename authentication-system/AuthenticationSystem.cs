@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Authenticator {
+public class Authenticator(Identity admin) {
     private static class EyeColor {
         public const string Blue = "blue";
         public const string Green = "green";
@@ -9,15 +9,7 @@ public class Authenticator {
         public const string Grey = "grey";
     }
 
-    private Identity admin;
-    public Identity Admin {
-        get => admin;
-        set => admin = value;
-    }
-
-    public Authenticator(Identity admin) {
-        this.admin = admin;
-    }
+    public Identity Admin { get; set; } = admin;
 
     private readonly IDictionary<string, Identity> developers = new Dictionary<string, Identity> {
         ["Bertrand"] = new Identity {
