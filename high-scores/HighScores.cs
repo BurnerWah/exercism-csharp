@@ -2,24 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class HighScores {
-    public HighScores(List<int> list) {
-        throw new NotImplementedException("You need to implement this method.");
-    }
-
-    public List<int> Scores() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
-
-    public int Latest() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
-
-    public int PersonalBest() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
-
-    public List<int> PersonalTopThree() {
-        throw new NotImplementedException("You need to implement this method.");
-    }
+public class HighScores(List<int> list) {
+    public List<int> Scores() => list;
+    public int Latest() => list[^1];
+    public int PersonalBest() => list.Order().Last();
+    public List<int> PersonalTopThree() => list.OrderDescending().Take(3).ToList();
 }
